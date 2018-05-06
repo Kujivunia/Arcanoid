@@ -1,0 +1,46 @@
+# Project: Arcanoid
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = main.o gameObjectClass.o Brick.o Ball.o Bat.o gameLoop.o MyLibrary.o
+LINKOBJ  = main.o gameObjectClass.o Brick.o Ball.o Bat.o gameLoop.o MyLibrary.o
+LIBS     = -L"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc ../MyLibrary.a -m32 -g3
+INCS     = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = Arcanoid.exe
+CXXFLAGS = $(CXXINCS) -m32 -g3
+CFLAGS   = $(INCS) -m32 -g3
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+gameObjectClass.o: gameObjectClass.cpp
+	$(CPP) -c gameObjectClass.cpp -o gameObjectClass.o $(CXXFLAGS)
+
+Brick.o: Brick.cpp
+	$(CPP) -c Brick.cpp -o Brick.o $(CXXFLAGS)
+
+Ball.o: Ball.cpp
+	$(CPP) -c Ball.cpp -o Ball.o $(CXXFLAGS)
+
+Bat.o: Bat.cpp
+	$(CPP) -c Bat.cpp -o Bat.o $(CXXFLAGS)
+
+gameLoop.o: gameLoop.cpp
+	$(CPP) -c gameLoop.cpp -o gameLoop.o $(CXXFLAGS)
+
+MyLibrary.o: MyLibrary.cpp
+	$(CPP) -c MyLibrary.cpp -o MyLibrary.o $(CXXFLAGS)
