@@ -54,6 +54,24 @@ gameObjectClass::gameObjectClass()
 	unsigned char gameObjectClass::getID(){
 		return ID;
 	}
+
+	double gameObjectClass::getMovX(){
+		return movX;
+	}
+
+	void gameObjectClass::setMovX(double a){
+		movX = a;
+	}
+
+	double gameObjectClass::getMovY(){
+		return movY;
+	}
+
+	void gameObjectClass::setMovY(double a){
+		movY = a;
+	}
+
+
 	
 gameObjectClass::~gameObjectClass()
 {

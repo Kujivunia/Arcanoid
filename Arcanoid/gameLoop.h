@@ -27,9 +27,11 @@ class gameLoop
 		int rowCountF;
 		int columnCountF;
 		int oldXB;
+		int playerHealth;
 		int oldYB;
 		Ball ball;
 		Brick **lvlMap;
+		Bat bat;
 		//FILE* mapFile;
 };
 
