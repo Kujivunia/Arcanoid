@@ -23,7 +23,8 @@ class Ball : public gameObjectClass
 		double x;
 		double y;
 		double oldX;
-		double oldY;		
+		double oldY;
+				
 };
 
 #endif

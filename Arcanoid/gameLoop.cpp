@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <windows.h>
 #include "MyLibrary.h"
 gameLoop::gameLoop()
 {	
@@ -30,9 +31,14 @@ void gameLoop::init(){
 	ball.setX(10);
 	ball.setY(10);
 	ball.setSpeed(0.1);
-	ball.setAlphaAngle(degToRad(160));
+	ball.setAlphaAngle(degToRad(30));
 	ball.setColor(15);
-	
+	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
+	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
+	bat.setSize(5);
+	bat.setX(4);
+	bat.setY(19);
+	bat.setColor(14);
 	lvlMap=new Brick*[I];
 	srand(time(0));
 	for (int i=0;i<I;i++){
@@ -58,24 +64,50 @@ void gameLoop::render()
 	int J;
 	I=rowCountB;
 	J=columnCountB;
+	
 	for (int i=0;i<I;i++){	
 		for (int j=0;j<J;j++){
 			lvlMap[i][j].renderMe(lvlMap[i][j].getX(),lvlMap[i][j].getY(),lvlMap[i][j].getColor());
 		}
 	}	
-	std::cout<<ball.getAlphAngle()<<' '<<ball.getX()<<' '<<ball.getY();
-		
-	//ball.DelRenderMe(round(ball.getOldX()),round(ball.getOldY()),ball.getColor());
+	
+	bat.DelRenderMe(bat.getOldX(),bat.getY(),ball.getColor());
+	bat.renderMe(bat.getX(),bat.getY(),bat.getColor());
+	ball.DelRenderMe(round(ball.getOldX()),round(ball.getOldY()),ball.getColor());
 	ball.renderMe(round(ball.getX()),round(ball.getY()),ball.getColor());
+	
 }	
 
 void gameLoop::gameStep(){
 		ball.setOldX(ball.getX());
 		ball.setOldY(ball.getY());
-		ball.setY(ball.getY()-ball.getSpeed()*sin(ball.getAlphAngle()) );
-		ball.setX(ball.getX()+ball.getSpeed()*cos(ball.getAlphAngle()) );
-		if ( round(ball.getY()) <= 0 || round(ball.getY()) >= rowCountF )  ball.setAlphaAngle(asin(ball.getSpeed()/-sin(ball.getAlphAngle())));
-	if( round(ball.getX()) <= 0 || round(ball.getX()) >= columnCountF) ball.setAlphaAngle(acos(ball.getSpeed()/-cos(ball.getAlphAngle())));
+		
+		bat.setOldX(bat.getX());
+		
+		//ball.setY(ball.getY()-ball.getSpeed()*sin(ball.getAlphAngle()) );
+		//ball.setX(ball.getX()+ball.getSpeed()*cos(ball.getAlphAngle()) );
+		ball.setX(ball.getX()+ball.getMovX());
+		ball.setY(ball.getY()-ball.getMovY());
+		if ( round(ball.getY()) <= 0) ball.setMovY(-ball.getMovY()) ;
+	if( round(ball.getX()) <= 0 || round(ball.getX()) >= columnCountF) ball.setMovX(-ball.getMovX()) ;
+	if(round(ball.getY()) >= rowCountF ) --playerHealth;
+	
+	if(GetAsyncKeyState(VK_LEFT))
+	{
+		keybd_event(VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
+		bat.setX(bat.getX()-1);
+	}
+	if(GetAsyncKeyState(VK_RIGHT))
+	{
+		keybd_event(VK_RIGHT, 0, KEYEVENTF_KEYUP, 0);
+		bat.setX(bat.getX()+1);	
+	}
+		if(GetAsyncKeyState(VK_UP))
+	{
+		keybd_event(VK_UP, 0, KEYEVENTF_KEYUP, 0);
+			
+	}
+	
 }
 
 
