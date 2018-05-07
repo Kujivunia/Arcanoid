@@ -20,8 +20,15 @@ class gameLoop
 		void setColumnCountB(int);
 		void setRowCountF(int);
 		void setColumnCountF(int);
+		bool getGameOver();
+		void setGameOver(bool);
+		void setScore(int);
+		int getScore();
+		
 		//void mapLoading(char* fileName);
 	private:
+		int score;
+		bool gameOver;
 		int rowCountB;
 		int columnCountB;
 		int rowCountF;

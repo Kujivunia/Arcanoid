@@ -14,6 +14,8 @@ void Ball::renderMe(int x, int y, int color){
 void Ball::DelRenderMe(int x, int y, int color){
 	if (exist == true){	
 	systemSetupML();
+		setTextColorML(color);
+
 	gotoCursXY(x,y);
 	std::cout<<' ';
 	} 
@@ -30,6 +32,12 @@ void Ball::DelRenderMe(int x, int y, int color){
 	void	Ball::setY(double a){
 		y = a;
 	}
+void Ball::moveStep(){
+		this->setOldX(this->getX());
+		this->setOldY(this->getY());
+		this->setX(this->getX()+this->getMovX());
+		this->setY(this->getY()-this->getMovY());
+}
 	
 		double	Ball::getOldX(){
 	return oldX;

@@ -6,16 +6,19 @@
 void Bat::renderMe(int x, int y, int color){
 	systemSetupML();
 	setTextColorML(color);
-	gotoCursXY(x,y);
+	gotoCursXY(x-((size-1)/2),y);
 	ID = 205;
 	for (int i = 0; i<size; i++){
 	std::cout<<ID;	
 	}
+	
 }
 
 void Bat::DelRenderMe(int x, int y, int color){
 	systemSetupML();
-	gotoCursXY(x,y);
+		setTextColorML(color);
+
+	gotoCursXY(x-((size-1)/2),y);
 	for (int i = 0; i<size; i++){
 	std::cout<<' ';	
 	}

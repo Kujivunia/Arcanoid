@@ -18,10 +18,19 @@ void Brick::renderMe(int x, int y, int color){
 	std::cout<<ID;
 	ID = 188;//187
 	std::cout<<ID;	
-	} 
+	} else{
+	systemSetupML();
+	setTextColorML(color);
+	gotoCursXY(x,y);
+	ID = ' ';
+	std::cout<<ID<<ID<<ID;		
+	}
 }
 void Brick::setBrickWide(int a){
 	brickWide = a;
+}
+int Brick::getBrickWide(){
+	return brickWide;
 }
 void Brick::collision(){
 	
