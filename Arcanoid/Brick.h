@@ -10,6 +10,7 @@ class Brick : public gameObjectClass
 		~Brick();
 		void renderMe(int x, int y, int color);
 		void setBrickWide(int);
+		int getBrickWide();
 		void collision();
 	protected:
 	int brickWide;

@@ -8,6 +8,18 @@
 gameLoop::gameLoop()
 {	
 }
+		bool gameLoop::getGameOver(){
+			return gameOver;
+		}
+		void gameLoop::setGameOver(bool a){
+			gameOver = a;
+		}
+		void gameLoop::setScore(int a){
+			score = a;
+		}
+		int gameLoop::getScore(){
+		return score;
+		}
 		void gameLoop::setRowCountB(int a){
 			rowCountB = a;
 		}
@@ -26,7 +38,7 @@ void gameLoop::init(){
 	int J;
 	I=rowCountB;
 	J=columnCountB;
-	
+	this->setGameOver(false);
 	ball.setExist(true);
 	ball.setX(10);
 	ball.setY(10);
@@ -71,7 +83,7 @@ void gameLoop::render()
 		}
 	}	
 	
-	bat.DelRenderMe(bat.getOldX(),bat.getY(),ball.getColor());
+	bat.DelRenderMe(	bat.getOldX(),	bat.getY(),	bat.getColor()	);
 	bat.renderMe(bat.getX(),bat.getY(),bat.getColor());
 	ball.DelRenderMe(round(ball.getOldX()),round(ball.getOldY()),ball.getColor());
 	ball.renderMe(round(ball.getX()),round(ball.getY()),ball.getColor());
@@ -79,18 +91,28 @@ void gameLoop::render()
 }	
 
 void gameLoop::gameStep(){
-		ball.setOldX(ball.getX());
-		ball.setOldY(ball.getY());
-		
+
+		ball.moveStep();
 		bat.setOldX(bat.getX());
-		
+int bx; int by;
+		by = round(ball.getY());
+		bx = round(ball.getX())/3;
+	if ( round(ball.getY())<rowCountB){
+	if (lvlMap[by][bx].getExist() == true){
+		lvlMap[by][bx].setExist(false);
+		ball.setMovY(-ball.getMovY());//temp		
+	}
+	}		
+	if (round(ball.getY()) >= bat.getY() && ( round(ball.getX()) >= bat.getX()-(bat.getSize()-1)/2 && round(ball.getX()) <= bat.getX()+(bat.getSize()-1)/2))
+	ball.setMovY(-ball.getMovY());
 		//ball.setY(ball.getY()-ball.getSpeed()*sin(ball.getAlphAngle()) );
 		//ball.setX(ball.getX()+ball.getSpeed()*cos(ball.getAlphAngle()) );
-		ball.setX(ball.getX()+ball.getMovX());
-		ball.setY(ball.getY()-ball.getMovY());
-		if ( round(ball.getY()) <= 0) ball.setMovY(-ball.getMovY()) ;
+
+	if ( round(ball.getY()) <= 0) ball.setMovY(-ball.getMovY()) ;
 	if( round(ball.getX()) <= 0 || round(ball.getX()) >= columnCountF) ball.setMovX(-ball.getMovX()) ;
-	if(round(ball.getY()) >= rowCountF ) --playerHealth;
+	if(round(ball.getY()) >= rowCountF ){
+	setGameOver(true);	
+	} 
 	
 	if(GetAsyncKeyState(VK_LEFT))
 	{
@@ -109,7 +131,6 @@ void gameLoop::gameStep(){
 	}
 	
 }
-
 
 gameLoop::~gameLoop()
 {

@@ -10,6 +10,7 @@ class Bat : public gameObjectClass
 	void setSize(int);
 			void renderMe(int x, int y, int color);
 			void DelRenderMe(int x, int y, int color);
+			
 		void setOldX(int);
 		int getOldX();
 	protected:
