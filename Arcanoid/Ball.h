@@ -19,6 +19,9 @@ class Ball : public gameObjectClass
 	double	getOldX();
 	void	setOldX(double);
 		
+		
+		void moveStep();
+		
 	protected:
 		double x;
 		double y;

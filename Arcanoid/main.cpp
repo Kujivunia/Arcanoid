@@ -21,7 +21,7 @@ gameLoop a;
 	a.gameStep();
 	a.render();
 	
-	while (true){
+	while (a.getGameOver()==false){
 		a.render();
 		a.gameStep();
 	}
