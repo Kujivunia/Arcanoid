@@ -26,11 +26,26 @@ void Brick::renderMe(int x, int y, int color){
 	std::cout<<ID<<ID<<ID;		
 	}
 }
+
+void Brick::delRenderMe(int x, int y, int color){
+	systemSetupML();
+	setTextColorML(color);
+	gotoCursXY(x,y);
+	ID = ' ';
+	std::cout<<ID<<ID<<ID;
+}
+
 void Brick::setBrickWide(int a){
 	brickWide = a;
 }
 int Brick::getBrickWide(){
 	return brickWide;
+}
+void Brick::setOnScreen(bool a){
+	onScreen = a;
+}
+bool Brick::getOnScreen(){
+	return onScreen;
 }
 void Brick::collision(){
 	

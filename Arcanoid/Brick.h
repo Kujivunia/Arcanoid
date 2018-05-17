@@ -9,11 +9,17 @@ class Brick : public gameObjectClass
 		Brick();
 		~Brick();
 		void renderMe(int x, int y, int color);
+		void delRenderMe(int x, int y, int color);
+
 		void setBrickWide(int);
 		int getBrickWide();
 		void collision();
+		
+		bool getOnScreen();
+		void setOnScreen(bool);
 	protected:
 	int brickWide;
+	bool onScreen;
 	private:
 		
 };

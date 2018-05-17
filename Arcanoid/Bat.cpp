@@ -7,7 +7,7 @@ void Bat::renderMe(int x, int y, int color){
 	systemSetupML();
 	setTextColorML(color);
 	gotoCursXY(x-((size-1)/2),y);
-	ID = 205;
+	ID = 223;//205
 	for (int i = 0; i<size; i++){
 	std::cout<<ID;	
 	}

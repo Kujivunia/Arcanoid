@@ -6,6 +6,7 @@
 #include "Ball.h"
 #include "Bat.h"
 #include <fstream>
+#include "MyLibrary.h"
 class gameLoop
 
 {
@@ -13,8 +14,8 @@ class gameLoop
 		gameLoop();
 		~gameLoop();
 		void init();
-		void render();
-		void gameStep();//16ms
+		void render(int,int);
+		void gameStep();
 		void control(); //”правление с клавиатуры
 		void setRowCountB(int);
 		void setColumnCountB(int);
@@ -25,9 +26,20 @@ class gameLoop
 		void setScore(int);
 		int getScore();
 		
+		void setFieldX(int);
+		int getFieldX();
+		void setFieldY(int);
+		int getFieldY();
+		bool getBorderOn();
+		void setBorderOn(bool);
+		void borderLine(int,int);
+		
 		//void mapLoading(char* fileName);
 	private:
+		int fieldX;
+		int fieldY;
 		int score;
+		bool borderOn;
 		bool gameOver;
 		int rowCountB;
 		int columnCountB;
