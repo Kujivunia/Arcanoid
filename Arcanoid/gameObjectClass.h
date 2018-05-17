@@ -22,9 +22,9 @@ class gameObjectClass
 	void setColor(int);
 	void setExist(bool);
 	bool getExist();
-	collision();
-	renderMe();
-	moveMe();
+	void collision();
+	void renderMe();
+	void moveMe();
 	double getMovX();
 	void setMovX(double); 
 	double getMovY();

@@ -57,6 +57,7 @@ gameLoop::gameLoop()
 		}
 		
 void gameLoop::init(){
+	srand(time(0));
 	this->setGameOver(false);
 	this->fieldX = 0;
 	this->fieldY = 0;
@@ -67,10 +68,12 @@ void gameLoop::init(){
 	ball.setY(10);
 	ball.setSpeed(0.1);
 	ball.setColor(15);
-	ball.setAlphaAngle(degToRad(30));
+	
+	ball.setAlphaAngle(degToRad( (rand()%361) ));
+	
 	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
 	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
-	bat.setSize(7);
+	bat.setSize(5);
 	bat.setX(4);
 	bat.setY(19);
 	bat.setColor(14);
@@ -153,7 +156,7 @@ void gameLoop::render(int fieldX, int fieldY)
 	borderLine(fieldX, fieldY);
 	gotoCursXY(fieldX+columnCountF+2,fieldY+1);
 	std::cout<<score;
-
+	
 	for (int i=0;i<rowCountB;i++){	
 		for (int j=0;j<columnCountB;j++){
 			if (lvlMap[i][j].getOnScreen() == false && lvlMap[i][j].getExist() == true)
@@ -176,8 +179,14 @@ void gameLoop::render(int fieldX, int fieldY)
 		bat.renderMe(bat.getX()+fieldX,bat.getY()+fieldY,bat.getColor());		
 	}
 	
+	if (ball.getX() == ball.getOldX() && ball.getY() == ball.getOldY())
+	{} 
+	else
+	{
 	ball.DelRenderMe(round(ball.getOldX()+fieldX),round(ball.getOldY()+fieldY),ball.getColor());
 	ball.renderMe(round(ball.getX()+fieldX),round(ball.getY()+fieldY),ball.getColor());
+	}
+
 	
 }	
 
@@ -193,57 +202,58 @@ void gameLoop::gameStep(){
 	if (lvlMap[by][bx].getExist() == true){
 		lvlMap[by][bx].setExist(false);
 		ball.setMovY(-ball.getMovY());//temp	
-		score++;	
+		score++;
 	}
-	}		
-	if (round(ball.getY()) >= bat.getY() - 1  && ( round(ball.getX()) >= bat.getX()-(bat.getSize()-1)/2 && round(ball.getX()) <= bat.getX()+(bat.getSize()-1)/2)){
+	}
+	
+	if (ball.getY() >= bat.getY() - 1  && ( ball.getX() >= bat.getX()-(bat.getSize()-1)/2 && ball.getX() <= bat.getX()+(bat.getSize()-1)/2)){
 	ball.setMovY(-ball.getMovY());
-
+	
 	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 ){
 	ball.setAlphaAngle(degToRad(150));
 	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
 	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
 	}	
-	if (round(ball.getX()) == 1 + bat.getX()-(bat.getSize()-1)/2 ){
+	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 1 ){
 	ball.setAlphaAngle(degToRad(120));
 	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
 	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
 	}		
-	if (round(ball.getX()) == 2 + bat.getX()-(bat.getSize()-1)/2 ){
+	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 2 ){
 	ball.setAlphaAngle(degToRad(90));
 	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
 	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
 	}
-	if (round(ball.getX()) == 3 + bat.getX()-(bat.getSize()-1)/2 ){
+	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 3 ){
 	ball.setAlphaAngle(degToRad(60));
 	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
 	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
 	}
-	if (round(ball.getX()) == 4 + bat.getX()-(bat.getSize()-1)/2 ){
+	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 4 ){
 	ball.setAlphaAngle(degToRad(30));
 	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
 	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
 	}
 	
-	}
+	} 
 		//ball.setY(ball.getY()-ball.getSpeed()*sin(ball.getAlphAngle()) );
 		//ball.setX(ball.getX()+ball.getSpeed()*cos(ball.getAlphAngle()) );
 
-	if ( round(ball.getY()) <= 0) ball.setMovY(-ball.getMovY()) ;
-	if( round(ball.getX()) <= 0 || round(ball.getX()) >= columnCountF-1) ball.setMovX(-ball.getMovX()) ;
-	if(round(ball.getY()) >= rowCountF ){
+	if ( ball.getY() <= 0) ball.setMovY(-ball.getMovY()) ;
+	if( ball.getX() <= 0 || ball.getX() >= columnCountF-1) ball.setMovX(-ball.getMovX()) ;
+	if(ball.getY() >= rowCountF ){
 	setGameOver(true);	
 	} 
 	
 	if(GetAsyncKeyState(VK_LEFT))
 	{
 		//keybd_event(VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
-		if (bat.getX()>fieldX+2+1) bat.setX(bat.getX()-1);
+		if (bat.getX()>fieldX+2) bat.setX(bat.getX()-1);
 	}
 	if(GetAsyncKeyState(VK_RIGHT))
 	{
 		//keybd_event(VK_RIGHT, 0, KEYEVENTF_KEYUP, 0);
-		if (bat.getX()<columnCountF+fieldX-2-2) bat.setX(bat.getX()+1);	
+		if (bat.getX()<columnCountF+fieldX-3) bat.setX(bat.getX()+1);	
 	}
 		if(GetAsyncKeyState(VK_UP))
 	{
