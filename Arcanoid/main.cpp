@@ -43,7 +43,7 @@ MyTimer Timer;
 		a.render(1,1);
 		a.gameStep();
 	Timer.timerEnd();
-	Timer.timerDelay(1);
+	Timer.timerDelay(16);
 	}
 
 	return 0;
