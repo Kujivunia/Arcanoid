@@ -37,3 +37,20 @@ void setTextColorML(int i){
 	i = i % 16;
 		SetConsoleTextAttribute(consoleHandle, i);
 }
+
+	void MyTimer::timerBegin(){
+		this->begin = time(0);
+	}
+	
+	void MyTimer::timerEnd(){
+		this->end = time(0);
+	}
+	
+	void MyTimer::timerDelay(int delay){
+			
+			Sleep( delay - ( end - begin ) );
+	
+	}
+	
+	
+	
