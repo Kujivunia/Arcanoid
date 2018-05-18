@@ -66,7 +66,7 @@ void gameLoop::init(){
 	ball.setExist(true);
 	ball.setX(10);
 	ball.setY(10);
-	ball.setSpeed(0.1);
+	ball.setSpeed(0.16);
 	ball.setColor(15);
 	
 	ball.setAlphaAngle(degToRad( (rand()%361) ));
@@ -198,12 +198,21 @@ void gameLoop::gameStep(){
 		int by;
 		by = round(ball.getY());
 		bx = round(ball.getX())/3;
-	if ( round(ball.getY())<rowCountB){
-	if (lvlMap[by][bx].getExist() == true){
-		lvlMap[by][bx].setExist(false);
-		ball.setMovY(-ball.getMovY());//temp	
-		score++;
-	}
+	if ( round(ball.getY())<rowCountB)
+	{
+		if (lvlMap[by][bx].getExist() == true)
+		{
+			lvlMap[by][bx].setExist(false);
+				if (round(ball.getOldY()) == by && (ball.getOldX() < bx || ball.getOldX() > bx ))
+				{
+					//ball.setMovY(-ball.getMovY());
+					ball.setMovX(-ball.getMovX());
+				}
+				else
+			ball.setMovY(-ball.getMovY());//temp
+				
+			score++;
+		}
 	}
 	
 	if (ball.getY() >= bat.getY() - 1  && ( ball.getX() >= bat.getX()-(bat.getSize()-1)/2 && ball.getX() <= bat.getX()+(bat.getSize()-1)/2)){

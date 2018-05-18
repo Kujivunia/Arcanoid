@@ -29,7 +29,7 @@ getch();
 gameLoop a;
 MyTimer Timer;
 	a.setColumnCountB(11);
-	a.setRowCountB(8);
+	a.setRowCountB(5);
 	
 	a.setRowCountF(20);
 	a.setColumnCountF(11*3);
