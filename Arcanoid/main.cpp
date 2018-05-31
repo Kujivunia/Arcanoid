@@ -36,13 +36,14 @@ MyTimer Timer;
 	
 	a.init();
 	a.gameStep();
-	a.render(1,1);
-	
+	a.render(7,7);
+	a.save();
 	while (a.getGameOver()==false){
 	Timer.timerBegin();
-		a.render(1,1);
+		a.render(7,7);
 		a.gameStep();
 	Timer.timerEnd();
+	
 	Timer.timerDelay(16);
 	}
 

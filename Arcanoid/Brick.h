@@ -2,6 +2,7 @@
 #define BRICK_H
 
 #include "gameObjectClass.h"
+#include "Ball.h"
 
 class Brick : public gameObjectClass
 {
@@ -13,7 +14,7 @@ class Brick : public gameObjectClass
 
 		void setBrickWide(int);
 		int getBrickWide();
-		void collision();
+		void collision(Ball);
 		
 		bool getOnScreen();
 		void setOnScreen(bool);

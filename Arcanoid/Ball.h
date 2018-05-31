@@ -18,7 +18,7 @@ class Ball : public gameObjectClass
 		
 	double	getOldX();
 	void	setOldX(double);
-		
+		void changeMoveAngleTo(double);
 		
 		void moveStep();
 		

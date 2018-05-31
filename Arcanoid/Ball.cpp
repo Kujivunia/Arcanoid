@@ -7,7 +7,7 @@ void Ball::renderMe(int x, int y, int color){
 	systemSetupML();
 	setTextColorML(color);
 	gotoCursXY(x,y);
-	ID = 254;
+	ID = 219;//254
 	std::cout<<ID;
 	} 
 }
@@ -20,6 +20,12 @@ void Ball::DelRenderMe(int x, int y, int color){
 	std::cout<<' ';
 	} 
 }	
+
+		void Ball::changeMoveAngleTo(double a){
+	movY = (this->speed * sin(a) );
+	movX = (this->speed * cos(a) );
+		}
+		
 	double	Ball::getX(){
 	return x;
 	}

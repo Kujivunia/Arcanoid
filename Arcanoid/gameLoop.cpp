@@ -1,13 +1,25 @@
-#include "gameLoop.h"
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include "gameObjectClass.h"
+#include "Brick.h"
+#include "Ball.h"
+#include "Bat.h"
+#include "gameLoop.h"
 #include <cmath>
-#include <windows.h>
+#include "windows.h"
 #include "MyLibrary.h"
+#include <cstdlib>
+#include <cstdio>
+#include <fstream>
+#include <ctime>
+#include <cstring>
+#include <conio.h>
+#include <locale>
+#include <map>
+using namespace std;
 gameLoop::gameLoop()
 {	
 }
+
 		bool gameLoop::getGameOver(){
 			return gameOver;
 		}
@@ -63,19 +75,22 @@ void gameLoop::init(){
 	this->fieldY = 0;
 	this->score = 0;
 	borderOn = false;
+	gameStart - false;
 	ball.setExist(true);
-	ball.setX(10);
-	ball.setY(10);
+	ball.setX(columnCountF/2);
+	ball.setY(rowCountF-2);
+	ball.setOldX(columnCountF/2-1);
+	ball.setOldY(rowCountF-2);
 	ball.setSpeed(0.16);
 	ball.setColor(15);
 	
-	ball.setAlphaAngle(degToRad( (rand()%361) ));
+	ball.setAlphaAngle(degToRad(-90));
 	
 	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
 	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
 	bat.setSize(5);
-	bat.setX(4);
-	bat.setY(19);
+	bat.setX(columnCountF/2);
+	bat.setY(rowCountF-1);
 	bat.setColor(14);
 	lvlMap=new Brick*[rowCountB];
 	srand(time(0));
@@ -126,19 +141,21 @@ if (borderOn == false){
 			
 	}
 	
-	gotoCursXY(columnCountF+2,fieldY-1);
+	gotoCursXY(columnCountF+1+fieldX,fieldY-1);
 	for (int i = 0; i<9; i++){
 		std::cout<<horizontal;
 	}
+	
 	std::cout<<rightTop;
-	gotoCursXY(columnCountF+2,fieldY);
+	gotoCursXY(columnCountF+1+fieldX,fieldY);
 	std::cout<<" SCORE:";
 	
-	gotoCursXY(columnCountF+2,rowCountF+fieldY);
+	gotoCursXY(columnCountF+1+fieldX,rowCountF+fieldY);
 	for (int i = 0; i<9; i++){
 		std::cout<<horizontal;
 	}
 	std::cout<<rightBot;
+	
 	for (int i = fieldY; i<rowCountF+fieldY; i++) {
 			gotoCursXY(fieldX+columnCountF+10, i);
 			std::cout<<vertical;			
@@ -152,7 +169,7 @@ if (borderOn == false){
 
 void gameLoop::render(int fieldX, int fieldY)
 {
-	
+
 	borderLine(fieldX, fieldY);
 	gotoCursXY(fieldX+columnCountF+2,fieldY+1);
 	std::cout<<score;
@@ -186,68 +203,58 @@ void gameLoop::render(int fieldX, int fieldY)
 	ball.DelRenderMe(round(ball.getOldX()+fieldX),round(ball.getOldY()+fieldY),ball.getColor());
 	ball.renderMe(round(ball.getX()+fieldX),round(ball.getY()+fieldY),ball.getColor());
 	}
+		if (gameStart == false) bat.renderMe(bat.getX()+fieldX,bat.getY()+fieldY,bat.getColor());
 
 	
 }	
 
 void gameLoop::gameStep(){
-
-		ball.moveStep();
+		if (gameStart == true) ball.moveStep();
+		
 		bat.setOldX(bat.getX());
 		int bx; 
 		int by;
 		by = round(ball.getY());
 		bx = round(ball.getX())/3;
+		
 	if ( round(ball.getY())<rowCountB)
-	{
+	{ 
 		if (lvlMap[by][bx].getExist() == true)
 		{
 			lvlMap[by][bx].setExist(false);
 				if (round(ball.getOldY()) == by && (ball.getOldX() < bx || ball.getOldX() > bx ))
 				{
-					//ball.setMovY(-ball.getMovY());
 					ball.setMovX(-ball.getMovX());
 				}
 				else
-			ball.setMovY(-ball.getMovY());//temp
+			ball.setMovY(-ball.getMovY());
 				
-			score++;
+			score+=lvlMap[by][bx].getColor()*2;
 		}
 	}
-	
-	if (ball.getY() >= bat.getY() - 1  && ( ball.getX() >= bat.getX()-(bat.getSize()-1)/2 && ball.getX() <= bat.getX()+(bat.getSize()-1)/2)){
+	  
+	if (ball.getY() >= bat.getY() - 1  && ( ball.getX() >= bat.getX()-(bat.getSize()-1)/2 && ball.getX() <= bat.getX()+(bat.getSize()-1)/2) & ( gameStart == true )){
 	ball.setMovY(-ball.getMovY());
 	
 	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 ){
-	ball.setAlphaAngle(degToRad(150));
-	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
-	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
+	ball.changeMoveAngleTo(degToRad(150));
 	}	
 	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 1 ){
-	ball.setAlphaAngle(degToRad(120));
-	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
-	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
+	ball.changeMoveAngleTo(degToRad(120));
 	}		
 	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 2 ){
-	ball.setAlphaAngle(degToRad(90));
-	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
-	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
+	ball.setX(round(ball.getX()));	
+	ball.changeMoveAngleTo(degToRad(90));
 	}
 	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 3 ){
-	ball.setAlphaAngle(degToRad(60));
-	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
-	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
+ball.changeMoveAngleTo(degToRad(60));
 	}
 	if (round(ball.getX()) == bat.getX()-(bat.getSize()-1)/2 + 4 ){
-	ball.setAlphaAngle(degToRad(30));
-	ball.setMovY(ball.getSpeed()*sin(ball.getAlphAngle()));
-	ball.setMovX(ball.getSpeed()*cos(ball.getAlphAngle()));
+ball.changeMoveAngleTo(degToRad(30));
 	}
 	
 	} 
-		//ball.setY(ball.getY()-ball.getSpeed()*sin(ball.getAlphAngle()) );
-		//ball.setX(ball.getX()+ball.getSpeed()*cos(ball.getAlphAngle()) );
-
+		
 	if ( ball.getY() <= 0) ball.setMovY(-ball.getMovY()) ;
 	if( ball.getX() <= 0 || ball.getX() >= columnCountF-1) ball.setMovX(-ball.getMovX()) ;
 	if(ball.getY() >= rowCountF ){
@@ -256,22 +263,50 @@ void gameLoop::gameStep(){
 	
 	if(GetAsyncKeyState(VK_LEFT))
 	{
-		//keybd_event(VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
+		if (gameStart == false) keybd_event(VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
 		if (bat.getX()>fieldX+2) bat.setX(bat.getX()-1);
 	}
 	if(GetAsyncKeyState(VK_RIGHT))
 	{
-		//keybd_event(VK_RIGHT, 0, KEYEVENTF_KEYUP, 0);
+		if (gameStart == false) keybd_event(VK_RIGHT, 0, KEYEVENTF_KEYUP, 0);
 		if (bat.getX()<columnCountF+fieldX-3) bat.setX(bat.getX()+1);	
 	}
 		if(GetAsyncKeyState(VK_UP))
 	{
 		keybd_event(VK_UP, 0, KEYEVENTF_KEYUP, 0);
-			
+		gameStart = true;
 	}
-	
+			if(GetAsyncKeyState(VK_SHIFT))
+	{save();
+	}
+			if(GetAsyncKeyState(VK_SPACE))
+	{load();	}
 }
-
+void gameLoop::save(){
+	
+	Brick e[rowCountB][columnCountB];
+	for (int i =0;i<5;i++){
+		for(int j=0;j<11;j++){
+			e[i][j]=lvlMap[i][j];
+		}
+	}
+		FILE* f = fopen("ARC_SAVE.MAP","wb");
+			fwrite(e,1,sizeof(e),f);
+	
+	fclose(f);
+}
+void gameLoop::load(){
+	Brick e[rowCountB][columnCountB];
+	
+	FILE* f = fopen("ARC_SAVE.MAP","rb");
+			fread(e,1,sizeof(e),f);
+	for (int i =0;i<5;i++){
+		for(int j=0;j<11;j++){
+			lvlMap[i][j]=e[i][j];
+		}
+	}
+	fclose(f);
+}
 gameLoop::~gameLoop()
 {
 }

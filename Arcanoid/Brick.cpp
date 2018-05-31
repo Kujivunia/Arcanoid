@@ -1,5 +1,6 @@
 #include "Brick.h"
 #include <iostream>
+#include "Ball.h"
 #include "MyLibrary.h"
 Brick::Brick()
 {
@@ -47,7 +48,9 @@ void Brick::setOnScreen(bool a){
 bool Brick::getOnScreen(){
 	return onScreen;
 }
-void Brick::collision(){
+void Brick::collision(Ball ball){
+	
+
 	
 }
 

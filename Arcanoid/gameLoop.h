@@ -25,7 +25,8 @@ class gameLoop
 		void setGameOver(bool);
 		void setScore(int);
 		int getScore();
-		
+		void save();
+		void load();
 		void setFieldX(int);
 		int getFieldX();
 		void setFieldY(int);
@@ -39,6 +40,7 @@ class gameLoop
 		int fieldX;
 		int fieldY;
 		int score;
+		bool gameStart;
 		bool borderOn;
 		bool gameOver;
 		int rowCountB;
