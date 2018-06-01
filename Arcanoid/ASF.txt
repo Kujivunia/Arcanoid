@@ -1,0 +1,23 @@
+borderOn:1 
+columnCountB:0 
+columnCountF:33 
+fieldX:0 
+fieldY:0 
+gameOver:0 
+gameStart:0 
+oldXB:0 
+oldYB:0 
+playerHealth:3 
+rowCountB:5 
+rowCountF:20 
+score:22 
+ball.getX():6.83165e-305 
+ball.getY():6.83165e-305 
+ball.getOldX():6.83165e-305 
+ball.getOldY():6.83165e-305 
+ball.getAlphAngle():6.83165e-305 
+ball.getSpeed():6.83165e-305 
+bat.getX():0 
+bat.getY():0 
+bat.getOldX():0 
+{END BLOCK}

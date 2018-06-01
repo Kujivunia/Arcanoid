@@ -16,36 +16,37 @@
 #include <locale>
 using namespace std;
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+/* run this program using the console pauser or add your own getch,
+ * system("pause") or input loop */
 
 int main(int argc, char** argv) {
-/*unsigned char c;
-for (int i = 0; i<255; i++){
-	c = i;
-	cout << i<<' '<<c <<';';
-}
-getch();
-*/
-gameLoop a;
-MyTimer Timer;
-	a.setColumnCountB(11);
-	a.setRowCountB(5);
-	
-	a.setRowCountF(20);
-	a.setColumnCountF(11*3);
-	
-	a.init();
-	a.gameStep();
-	a.render(7,7);
-	a.save();
-	while (a.getGameOver()==false){
-	Timer.timerBegin();
-		a.render(7,7);
-		a.gameStep();
-	Timer.timerEnd();
-	
-	Timer.timerDelay(16);
-	}
+  /*unsigned char c;
+  for (int i = 0; i<255; i++){
+          c = i;
+          cout << i<<' '<<c <<';';
+  }
+  getch();
+  */
+  gameLoop a;
+  MyTimer Timer;
+  a.setColumnCountB(11);
+  a.setRowCountB(5);
 
-	return 0;
+  a.setRowCountF(20);
+  a.setColumnCountF(11 * 3);
+
+  a.init();
+  a.gameStep();
+  a.render(7, 7);
+  a.save();
+  while (a.getGameOver() == false) {
+    Timer.timerBegin();
+    a.render(7, 7);
+    a.gameStep();
+    Timer.timerEnd();
+
+    Timer.timerDelay(16);
+  }
+
+  return 0;
 }
