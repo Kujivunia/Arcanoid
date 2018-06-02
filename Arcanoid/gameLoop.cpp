@@ -250,6 +250,10 @@ void gameLoop::gameStep() {
   if (GetAsyncKeyState(VK_SPACE)) {
   keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
     load();
+	  bat.DelRenderMe(bat.getOldX() + fieldX, bat.getY() + fieldY,
+                    bat.getColor());
+    ball.DelRenderMe(round(ball.getOldX() + fieldX),
+                     round(ball.getOldY() + fieldY), ball.getColor());
   }
 }
 void gameLoop::save() {
@@ -417,6 +421,7 @@ void gameLoop::load()
 				this->lvlMap[i][j].setExist(b);
 				fin>>b;
 				this->lvlMap[i][j].setOnScreen(b);
+				\\Делать false ибо после загрузки они будут не на экране либо провести сравнение текущих и сохранённых при лоаде
 				
 			}
 		}
