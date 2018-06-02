@@ -137,6 +137,8 @@ void gameLoop::borderLine(int fieldX, int fieldY) {
 }
 
 void gameLoop::render(int fieldX, int fieldY) {
+	this->fieldX = fieldX;
+	this->fieldY = fieldY;
   borderLine(fieldX, fieldY);
   gotoCursXY(fieldX + columnCountF + 2, fieldY + 1);
   std::cout << score;
@@ -231,11 +233,11 @@ void gameLoop::gameStep() {
 
   if (GetAsyncKeyState(VK_LEFT)) {
     if (gameStart == false) keybd_event(VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
-    if (bat.getX() > fieldX + 2) bat.setX(bat.getX() - 1);
+    if (bat.getX() > 2) bat.setX(bat.getX() - 1);
   }
   if (GetAsyncKeyState(VK_RIGHT)) {
     if (gameStart == false) keybd_event(VK_RIGHT, 0, KEYEVENTF_KEYUP, 0);
-    if (bat.getX() < columnCountF + fieldX - 3) bat.setX(bat.getX() + 1);
+    if (bat.getX() < columnCountF - 3) bat.setX(bat.getX() + 1);
   }
   if (GetAsyncKeyState(VK_UP)) {
     keybd_event(VK_UP, 0, KEYEVENTF_KEYUP, 0);
@@ -266,37 +268,65 @@ void gameLoop::save() {
   fout.open("ASF.txt",ios::out);
   if (fout !=NULL)
 	 {  
-		
+		/*
 		fout
-		<<"borderOn:"<<this->borderOn<<' '<<'\n'
-		<<"columnCountB:"<<this->columnCountB<<' '<<'\n'
-		<<"columnCountF:"<<this->columnCountF<<' '<<'\n'
-		<<"fieldX:"<<this->fieldX<<' '<<'\n'
-		<<"fieldY:"<<this->fieldY<<' '<<'\n'
-		<<"gameOver:"<<this->gameOver<<' '<<'\n'
-		<<"gameStart:"<<this->gameStart<<' '<<'\n'
-		<<"oldXB:"<<this->oldXB<<' '<<'\n'
-		<<"oldYB:"<<this->oldYB<<' '<<'\n'
-		<<"playerHealth:"<<this->playerHealth<<' '<<'\n'
-		<<"rowCountB:"<<this->rowCountB<<' '<<'\n'
-		<<"rowCountF:"<<this->rowCountF<<' '<<'\n'
-		<<"score:"<<this->score<<' '<<'\n'
-		<<"ball.getX():"<<this->ball.getX()<<' '<<'\n'
-		<<"ball.getY():"<<this->ball.getY()<<' '<<'\n'
-		<<"ball.getOldX():"<<this->ball.getOldX()<<' '<<'\n'
-		<<"ball.getOldY():"<<this->ball.getOldY()<<' '<<'\n'
-		<<"ball.getAlphAngle():"<<this->ball.getAlphAngle()<<' '<<'\n'
-		<<"ball.getSpeed():"<<this->ball.getSpeed()<<' '<<'\n'
-		<<"bat.getX():"<<this->bat.getX()<<' '<<'\n'
-		<<"bat.getY():"<<this->bat.getY()<<' '<<'\n'
-		<<"bat.getOldX():"<<this->bat.getOldX()<<' '<<'\n'
+		<<"borderOn:"<<this->borderOn<<'\n'
+		<<"columnCountB:"<<this->columnCountB<<'\n'
+		<<"columnCountF:"<<this->columnCountF<<'\n'
+		<<"fieldX:"<<this->fieldX<<'\n'
+		<<"fieldY:"<<this->fieldY<<'\n'
+		<<"gameOver:"<<this->gameOver<<'\n'
+		<<"gameStart:"<<this->gameStart<<'\n'
+		<<"oldXB:"<<this->oldXB<<'\n'
+		<<"oldYB:"<<this->oldYB<<'\n'
+		<<"playerHealth:"<<this->playerHealth<<'\n'
+		<<"rowCountB:"<<this->rowCountB<<'\n'
+		<<"rowCountF:"<<this->rowCountF<<'\n'
+		<<"score:"<<this->score<<'\n'
+		<<"ball.getX():"<<this->ball.getX()<<'\n'
+		<<"ball.getY():"<<this->ball.getY()<<'\n'
+		<<"ball.getOldX():"<<this->ball.getOldX()<<'\n'
+		<<"ball.getOldY():"<<this->ball.getOldY()<<'\n'
+		<<"ball.getAlphAngle():"<<this->ball.getAlphAngle()<<'\n'
+		<<"ball.getSpeed():"<<this->ball.getSpeed()<<'\n'
+		<<"bat.getX():"<<this->bat.getX()<<'\n'
+		<<"bat.getY():"<<this->bat.getY()<<'\n'
+		<<"bat.getOldX():"<<this->bat.getOldX()<<'\n'
 		<<"{END BLOCK}"<<'\n'
 		;
+		*/
+	fout
+	<<borderOn<<' '
+	<<columnCountB<<' '
+	<<columnCountF	<<' '
+	<<fieldX<<' '
+	<<fieldY<<' '
+	<<gameOver<<' '
+	<<gameStart<<' '
+	<<oldXB<<' '
+	<<oldYB<<' '
+	<<playerHealth<<' '
+	<<rowCountB<<' '
+	<<rowCountF<<' '
+	<<score<<' '
+	<<this->ball.getX()<<' '
+	<<this->ball.getY()<<' '
+	<<this->ball.getOldX()<<' '
+	<<this->ball.getOldY()<<' '
+	<<this->ball.getAlphAngle()<<' '
+	<<this->ball.getSpeed()<<' '
+	<<this->bat.getX()<<' '
+	<<this->bat.getY()<<' '
+	<<this->bat.getOldX()
+	<<'\n'
+	;
+	
+	
+	
 		
 		for (int i = 0; i<rowCountB;++i){
 			for (int j = 0; j<columnCountB;++j){
 				fout
-				<<'`'
 				<<this->lvlMap[i][j].getExist()
 				<<' '
 				<<this->lvlMap[i][j].getOnScreen()
@@ -313,9 +343,11 @@ void gameLoop::load()
   char c = 'b';
   double d;
   int i;
+  bool b;
   fin.open("ASF.txt",ios::in);
   if (fin !=NULL)
-	{  
+	{ 
+	/* 
 		while (c!=':') fin>>c; fin>>this->borderOn;
 		while (c!=':') fin>>c; fin>>this->columnCountB; 
 		while (c!=':') fin>>c; fin>>this->columnCountF; 
@@ -338,9 +370,59 @@ void gameLoop::load()
 		while (c!=':') fin>>c; fin>>d; this->bat.setX(d);
 		while (c!=':') fin>>c; fin>>d; this->bat.setY(d);
 		while (c!=':') fin>>c; fin>>i; this->bat.setOldX(i);
+		while (c!='}') fin>>c; fin>>c;
 		
+		for (int i = 0; i<rowCountB; i++){
+			for (int j = 0; j<columnCountB; j++){
+					fin>>c;
+					fin>>b;
+					lvlMap[i][j].setExist(b);
+					fin>>c;
+					fin>>b;
+					lvlMap[i][j].setOnScreen(b);
+					fin>>c;
+			}				
+		}
+		*/
+	fin
+	>>borderOn
+	>>columnCountB
+	>>columnCountF
+	>>fieldX
+	>>fieldY
+	>>gameOver
+	>>gameStart
+	>>oldXB
+	>>oldYB
+	>>playerHealth
+	>>rowCountB
+	>>rowCountF
+	>>score
+	;
+	fin>>d;	this->ball.setX(d);
+	fin>>d;	this->ball.setY(d);
+	fin>>d;	this->ball.setOldX(d);
+	fin>>d;	this->ball.setOldY(d);
+	fin>>d;	this->ball.setAlphaAngle(d);
+	fin>>d;	this->ball.setSpeed(d);
+	fin>>i;	this->bat.setX(i);
+	fin>>i;	this->bat.setY(i);
+	fin>>i;	this->bat.setOldX(i);
+	
+		
+		for (int i = 0; i<rowCountB;++i){
+			for (int j = 0; j<columnCountB;++j){
+				
+				fin>>b;
+				this->lvlMap[i][j].setExist(b);
+				fin>>b;
+				this->lvlMap[i][j].setOnScreen(b);
+				
+			}
+		}
 	}
   fin.close();
+	
 
 }
 gameLoop::~gameLoop() {}

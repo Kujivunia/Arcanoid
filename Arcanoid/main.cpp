@@ -27,6 +27,7 @@ int main(int argc, char** argv) {
   }
   getch();
   */
+  
   gameLoop a;
   MyTimer Timer;
   a.setColumnCountB(11);

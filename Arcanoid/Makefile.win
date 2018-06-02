@@ -1,23 +1,22 @@
 # Project: Arcanoid
-# Makefile created by Dev-C++ 5.4.2
+# Makefile created by Dev-C++ 5.11
 
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
 OBJ      = main.o gameObjectClass.o Brick.o Ball.o Bat.o gameLoop.o MyLibrary.o
 LINKOBJ  = main.o gameObjectClass.o Brick.o Ball.o Bat.o gameLoop.o MyLibrary.o
-LIBS     = -L"D:/Games/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc MyLibrary.a  -m32 -g3
-INCS     = -I"D:/Games/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include"
-CXXINCS  = -I"D:/Games/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include"
+LIBS     = -L"C:/Program Files/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc MyLibrary.a -m32 -g3
+INCS     = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
 BIN      = Arcanoid.exe
 CXXFLAGS = $(CXXINCS) -m32 -g3
 CFLAGS   = $(INCS) -m32 -g3
-RM       = rm -f
+RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
 
 all: all-before $(BIN) all-after
-
 
 clean: clean-custom
 	${RM} $(OBJ) $(BIN)
