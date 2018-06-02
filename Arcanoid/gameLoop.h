@@ -53,6 +53,11 @@ class gameLoop
   Ball ball;
   Brick **lvlMap;
   Bat bat;
+  struct strSave{
+  	Brick **lvlMap;
+  	Bat bat;
+  	Ball ball;
+	};
   // FILE* mapFile;
 };
 
